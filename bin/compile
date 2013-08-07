@@ -16,6 +16,10 @@ for BUILDPACK in $(cat $1/.buildpacks); do
   dir=$(mktemp -t buildpackXXXXX)
   rm -rf $dir
 
+  if echo $BUILDPACK | grep "ruby" >/dev/null 2>&1; then
+    RUBY_BUILDPACK_DIR=$dir
+  fi
+
   url=${BUILDPACK%#*}
   branch=${BUILDPACK#*#}
 
@@ -59,7 +63,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
 done
 
 echo "=====> Running node asset compile"
-PATH=$PATH:bin bundle exec rake vizify:node_compile 2>&1
+PATH=$PATH:$RUBY_BUILDPACK_DIR/bin bundle exec rake vizify:node_compile 2>&1
 
 if [ -e $1/last_pack_release.out ]; then
   echo "Using release configuration from last framework $framework:" | indent
