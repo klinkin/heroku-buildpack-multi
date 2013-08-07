@@ -63,6 +63,8 @@ for BUILDPACK in $(cat $1/.buildpacks); do
 done
 
 echo "=====> Running node asset compile"
+# Debug
+find . -maxdepth 3
 PATH=$PATH:$RUBY_BUILDPACK_DIR/bin bundle exec rake vizify:node_compile 2>&1
 
 if [ -e $1/last_pack_release.out ]; then
