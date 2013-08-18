@@ -58,12 +58,6 @@ for BUILDPACK in $(cat $1/.buildpacks); do
   fi
 done
 
-echo "=====> Running node asset compile"
-# Debug
-pushd $1 >/dev/null
-PATH=$PATH:bin rake vizify:node_compile 2>&1
-popd >/dev/null
-
 if [ -e $1/last_pack_release.out ]; then
   echo "Using release configuration from last framework $framework:" | indent
   cat $1/last_pack_release.out | indent
